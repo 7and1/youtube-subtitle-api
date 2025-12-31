@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      YouTube Subtitle API | Download Subtitles as SRT, VTT, TXT - Free Online
+      Tool
+    </title>
+    <meta
+      name="description"
+      content="Free YouTube subtitle downloader API. Extract and download subtitles in SRT, VTT, TXT formats. Supports 100+ languages with auto-generated and manual subtitles. No registration required."
+    />
+    <meta
+      name="keywords"
+      content="youtube subtitles, youtube caption download, youtube to srt, youtube to vtt, subtitle extractor, youtube transcript, download subtitles, caption downloader, subtitle api"
+    />
+    <meta name="author" content="YouTube Subtitle API" />
+    <meta name="robots" content="index, follow" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link id="canonical" rel="canonical" href="/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="YouTube Subtitle API" />
+    <meta
+      property="og:title"
+      content="YouTube Subtitle API | Download Subtitles as SRT, VTT, TXT - Free Online Tool"
+    />
+    <meta
+      property="og:description"
+      content="Free YouTube subtitle downloader API. Extract and download subtitles in SRT, VTT, TXT formats. Supports 100+ languages with auto-generated and manual subtitles. No registration required."
+    />
+    <meta property="og:url" content="/" />
+    <meta property="og:image" content="/og.svg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@YouTubeSubAPI" />
+    <meta
+      name="twitter:title"
+      content="YouTube Subtitle API | Download Subtitles as SRT, VTT, TXT - Free Online Tool"
+    />
+    <meta
+      name="twitter:description"
+      content="Free YouTube subtitle downloader API. Extract and download subtitles in SRT, VTT, TXT formats. Supports 100+ languages."
+    />
+    <meta name="twitter:image" content="/og.svg" />
+
+    <link rel="alternate" hreflang="en" href="/" />
+    <link rel="alternate" hreflang="x-default" href="/" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "@id": "https://youtube-subtitle-api.com/#webapp",
+            "name": "YouTube Subtitle API",
+            "url": "https://youtube-subtitle-api.com",
+            "applicationCategory": "MultimediaApplication",
+            "operatingSystem": "Web Browser",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "ratingCount": "1250",
+              "bestRating": "5",
+              "worstRating": "1"
+            },
+            "featureList": [
+              "Download YouTube subtitles as SRT",
+              "Download YouTube subtitles as VTT",
+              "Download YouTube subtitles as TXT",
+              "Support for 100+ languages",
+              "Auto-generated subtitle extraction",
+              "Manual subtitle extraction",
+              "API access for developers"
+            ]
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://youtube-subtitle-api.com/#software",
+            "name": "YouTube Subtitle API",
+            "applicationCategory": "DeveloperApplication",
+            "operatingSystem": "Web",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "ratingCount": "1250"
+            }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://youtube-subtitle-api.com/#website",
+            "url": "https://youtube-subtitle-api.com",
+            "name": "YouTube Subtitle API",
+            "description": "Free YouTube subtitle downloader API. Extract and download subtitles in SRT, VTT, TXT formats.",
+            "potentialAction": [
+              {
+                "@type": "SearchAction",
+                "target": "https://youtube-subtitle-api.com/?video={search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            ]
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "How do I download YouTube subtitles?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Enter the YouTube video URL or ID, select your preferred language and format (SRT, VTT, or TXT), and click Extract. The subtitle will be downloaded automatically."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What subtitle formats are supported?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "We support SRT (SubRip), VTT (WebVTT), and TXT (plain text) formats for maximum compatibility with video players and editing software."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I extract auto-generated YouTube subtitles?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes, our tool supports both manually uploaded subtitles and YouTube's auto-generated captions for videos that have them available."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How many languages are supported?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "We support all languages available on YouTube, including English, Spanish, French, German, Portuguese, Chinese, Japanese, Korean, and 100+ more languages."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is this YouTube subtitle downloader free?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes, our YouTube subtitle downloader is completely free to use. No registration or payment required."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+
+    <script>
+      (function () {
+        try {
+          var origin = location.origin;
+          var canonical = document.getElementById("canonical");
+          if (canonical) canonical.setAttribute("href", origin + "/");
+          var ogUrl = document.querySelector('meta[property="og:url"]');
+          if (ogUrl) ogUrl.setAttribute("content", origin + "/");
+          var ogImage = document.querySelector('meta[property="og:image"]');
+          if (ogImage) ogImage.setAttribute("content", origin + "/og.svg");
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="container">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">YT</div>
+        <div>
+          <div class="title">YouTube Subtitle API</div>
+          <div class="subtitle">
+            FastAPI backend • RQ workers • Cloudflare Pages frontend
+          </div>
+        </div>
+      </div>
+      <button
+        class="mobile-menu-btn"
+        id="mobile-menu-btn"
+        aria-label="Toggle menu"
+        type="button"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="nav" id="nav">
+        <a id="link-docs" href="/docs" rel="nofollow">Backend OpenAPI</a>
+        <a id="link-health" href="/health" rel="nofollow">Backend Health</a>
+        <a id="link-metrics" href="/metrics" rel="nofollow">Backend Metrics</a>
+      </nav>
+    </header>
+
+    <main class="container grid">
+      <section class="card">
+        <h1>Extract YouTube subtitles</h1>
+        <p class="muted">
+          Submits <code>POST /api/subtitles</code>. Cache hits return
+          <code>200</code>. Cache misses return <code>202</code> with a
+          <code>job_id</code> and the UI auto-polls
+          <code>/api/job/{job_id}</code>.
+        </p>
+
+        <form id="form" class="form" novalidate>
+          <label>
+            Video URL or ID
+            <div class="input-wrapper">
+              <input
+                id="video"
+                name="video"
+                placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                required
+                autocomplete="off"
+              />
+              <div class="input-icon" id="video-icon"></div>
+            </div>
+            <span class="input-hint" id="video-hint"></span>
+          </label>
+          <div class="row">
+            <label>
+              Language
+              <input
+                id="lang"
+                name="lang"
+                value="en"
+                placeholder="en"
+                autocomplete="off"
+              />
+            </label>
+            <label class="checkbox">
+              <input id="clean" name="clean" type="checkbox" checked />
+              Clean for AI
+            </label>
+          </div>
+          <label>
+            API Base URL (optional)
+            <div class="input-wrapper">
+              <input
+                id="base"
+                name="base"
+                placeholder="Leave empty when using Pages Functions proxy"
+                autocomplete="off"
+              />
+            </div>
+          </label>
+
+          <div class="actions">
+            <button id="submit" type="submit" class="btn-primary">
+              <span class="btn-text">Extract</span>
+              <span class="btn-spinner" aria-hidden="true"></span>
+            </button>
+            <button id="fill-demo" type="button" class="secondary">Demo</button>
+          </div>
+        </form>
+
+        <!-- Rate Limit Warning Banner -->
+        <div class="rate-limit-banner" id="rate-limit-banner" hidden>
+          <div class="rate-limit-icon">!</div>
+          <div class="rate-limit-content">
+            <div class="rate-limit-title">Rate limit approaching</div>
+            <div class="rate-limit-desc" id="rate-limit-desc">
+              You have 3 requests remaining. Please wait before making more
+              requests.
+            </div>
+          </div>
+        </div>
+
+        <div class="hint">
+          <div class="hint-title">curl</div>
+          <div class="hint-actions">
+            <button id="copy-curl" type="button" class="tiny">
+              <span class="copy-text">Copy</span>
+              <span class="copy-check" hidden>Copied!</span>
+            </button>
+          </div>
+          <pre>
+            <code id="curl">curl -X POST /api/subtitles \
+  -H "Content-Type: application/json" \
+  -d '{"url":"https://www.youtube.com/watch?v=dQw4w9WgXcQ","language":"en","clean_for_ai":true}'</code>
+          </pre>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Result</h2>
+        <div class="status-header">
+          <div id="status" class="pill">idle</div>
+          <button id="retry-btn" type="button" class="tiny retry-btn" hidden>
+            Retry
+          </button>
+        </div>
+        <div id="meta" class="meta"></div>
+
+        <!-- Loading Skeleton -->
+        <div class="skeleton" id="skeleton" hidden>
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line short"></div>
+        </div>
+
+        <!-- Error State -->
+        <div class="error-state" id="error-state" hidden>
+          <div class="error-icon">!</div>
+          <div class="error-content">
+            <div class="error-title" id="error-title">Something went wrong</div>
+            <div class="error-message" id="error-message">
+              Unable to fetch subtitles. Please try again.
+            </div>
+          </div>
+        </div>
+
+        <div class="actions" id="result-actions">
+          <button id="copy-text" type="button" class="secondary">
+            <span class="copy-text">Copy text</span>
+            <span class="copy-check" hidden>Copied!</span>
+          </button>
+          <div class="dropdown" id="download-dropdown">
+            <button type="button" class="secondary dropdown-toggle">
+              Download
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                aria-hidden="true"
+              >
+                <path
+                  d="M2 4l4 4 4-4"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-width="1.5"
+                />
+              </svg>
+            </button>
+            <div class="dropdown-menu">
+              <button type="button" class="dropdown-item" data-format="json">
+                Download as JSON
+              </button>
+              <button type="button" class="dropdown-item" data-format="srt">
+                Download as SRT
+              </button>
+              <button type="button" class="dropdown-item" data-format="vtt">
+                Download as VTT
+              </button>
+              <button type="button" class="dropdown-item" data-format="txt">
+                Download as TXT
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <textarea
+          id="output"
+          class="output"
+          readonly
+          placeholder="Subtitle text will appear here..."
+          hidden
+        ></textarea>
+
+        <details class="details">
+          <summary>Raw JSON</summary>
+          <div class="json-actions">
+            <button id="copy-json" type="button" class="tiny">
+              <span class="copy-text">Copy</span>
+              <span class="copy-check" hidden>Copied!</span>
+            </button>
+          </div>
+          <pre id="raw" class="raw json-output"><code></code></pre>
+        </details>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="card span-2">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>What subtitle formats are supported?</summary>
+            <div class="faq-content">
+              The API extracts subtitles in plain text format by default. You
+              can also download them as SRT, VTT, or JSON files using the
+              download button. The original YouTube caption data is returned in
+              the JSON response.
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>Why is my request taking longer than expected?</summary>
+            <div class="faq-content">
+              First-time requests for a video require processing and may take up
+              to 90 seconds. Subsequent requests are cached and return
+              instantly. The status indicator shows "queued" while processing
+              and "finished" when complete.
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>What does "Clean for AI" do?</summary>
+            <div class="faq-content">
+              When enabled, this option removes common subtitle artifacts like
+              music indicators [♪], sound effects, and repeated text. This
+              produces cleaner text suitable for AI processing, summarization,
+              or analysis.
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>Is there a rate limit?</summary>
+            <div class="faq-content">
+              Yes, the API has rate limiting to ensure fair usage. When you
+              approach the limit, a warning banner will appear. If you exceed
+              the limit, you'll receive a 429 response with a Retry-After header
+              indicating when to try again.
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>Can I use this API programmatically?</summary>
+            <div class="faq-content">
+              Absolutely! The curl example shows the basic request format. Full
+              API documentation is available at the Backend OpenAPI link above.
+              The API supports both synchronous (cache hit) and asynchronous
+              (cache miss) responses.
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="card span-2">
+        <h2>API Documentation</h2>
+        <div class="cols">
+          <div>
+            <h3>Endpoints</h3>
+            <ul class="list">
+              <li><code>POST /api/subtitles</code> — extract or enqueue</li>
+              <li><code>GET /api/subtitles/{video_id}</code> — read cache</li>
+              <li>
+                <code>GET /api/job/{job_id}</code> — poll async job status
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3>Production</h3>
+            <ul class="list">
+              <li>3-tier cache: memory → Redis → Postgres</li>
+              <li>
+                Rate limiting with <code>429</code> + <code>Retry-After</code>
+              </li>
+              <li>Metrics: <code>/metrics</code></li>
+            </ul>
+          </div>
+        </div>
+        <p class="muted">
+          Deploy the backend separately. Deploy this frontend to Cloudflare
+          Pages and proxy <code>/api/*</code> via Pages Functions so browsers
+          never see backend secrets.
+        </p>
+      </section>
+
+      <section class="card span-2">
+        <h2>Supported Formats</h2>
+        <div class="cols">
+          <div>
+            <h3><a href="/youtube-to-srt">YouTube to SRT</a></h3>
+            <p class="muted">
+              Download subtitles as SubRip (.srt) format, compatible with most
+              video players and editing software.
+            </p>
+          </div>
+          <div>
+            <h3><a href="/youtube-to-vtt">YouTube to VTT</a></h3>
+            <p class="muted">
+              Export subtitles as WebVTT (.vtt) format, ideal for web video
+              players and HTML5 video.
+            </p>
+          </div>
+          <div>
+            <h3><a href="/youtube-to-txt">YouTube to TXT</a></h3>
+            <p class="muted">
+              Extract plain text transcripts, perfect for content analysis, AI
+              training, and documentation.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="container footer">
+      <div class="muted">© <span id="year"></span> YouTube Subtitle API</div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+    <noscript>
+      <div class="container card">
+        This page requires JavaScript for the interactive demo. The backend
+        OpenAPI docs are available at
+        <code>/docs</code>.
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

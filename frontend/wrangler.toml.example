@@ -1,0 +1,22 @@
+# YouTube Subtitle API - Cloudflare Pages Configuration
+# Copy this file to wrangler.toml and fill in your values
+# NEVER commit wrangler.toml to git - it may contain sensitive info
+
+name = "youtube-subtitle-api"
+compatibility_date = "2024-12-01"
+pages_build_output_dir = "dist"
+
+# Local development (only applies during `wrangler pages dev`)
+[vars]
+# These are for local development only
+# In production, set these in Cloudflare Pages dashboard
+BACKEND_BASE_URL = "http://localhost:8010"
+ALLOWED_ORIGINS = "*"
+
+# Production environment variables should be set in:
+# Cloudflare Dashboard > Pages > youtube-subtitle-api > Settings > Environment Variables
+#
+# Required variables:
+# - BACKEND_BASE_URL: https://sub-api.expertbeacon.com
+# - BACKEND_API_KEY: (your API key from the backend)
+# - ALLOWED_ORIGINS: https://youtube-subtitle-api.pages.dev,https://your-custom-domain.com

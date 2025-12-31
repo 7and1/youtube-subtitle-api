@@ -1,0 +1,7 @@
+# Proxy list (optional)
+# Supported formats:
+# - ip:port,user,pass
+# - ip:port:user:pass
+#
+# Example:
+# 127.0.0.1:8080,user,pass

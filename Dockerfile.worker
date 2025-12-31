@@ -1,0 +1,50 @@
+# Worker process for async subtitle extraction (RQ).
+
+# Stage 1: Builder (build wheels, including transitive deps)
+FROM python:3.13-slim-bookworm AS builder
+
+WORKDIR /build
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+RUN pip install --upgrade pip setuptools wheel && \
+    pip wheel --no-cache-dir --wheel-dir /build/wheels -r requirements.txt
+
+# Stage 2: Runtime
+FROM python:3.13-slim-bookworm
+
+LABEL maintainer="Infrastructure Team"
+LABEL service="youtube-subtitles-worker"
+LABEL version="1.0.0"
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq5 \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN groupadd -r apiuser && useradd -r -g apiuser apiuser
+
+COPY --from=builder /build/wheels /wheels
+COPY --from=builder /build/requirements.txt /app/requirements.txt
+RUN pip install --no-index --find-links=/wheels -r /app/requirements.txt && rm -rf /wheels
+
+COPY --chown=apiuser:apiuser src/ /app/src/
+COPY --chown=apiuser:apiuser worker.py /app/
+COPY --chown=apiuser:apiuser config/ /app/config/
+
+RUN mkdir -p /app/logs && chown -R apiuser:apiuser /app/logs && chmod 755 /app/logs
+
+USER apiuser
+
+CMD ["python", "worker.py"]

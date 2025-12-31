@@ -1,0 +1,181 @@
+services:
+  # Main FastAPI service (async request handler)
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: heavy-youtube-subtitles-api
+    restart: unless-stopped
+
+    environment:
+      # Service Configuration
+      - SERVICE_NAME=youtube-subtitles-api
+      - ENVIRONMENT=production
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+
+      # API Server
+      - API_HOST=0.0.0.0
+      - API_PORT=8010
+      - WORKERS=${WORKERS:-2}
+      - WORKER_TIMEOUT=${WORKER_TIMEOUT:-30}
+
+      # Database (Supabase PostgreSQL)
+      - DATABASE_URL=postgresql+asyncpg://postgres:${DB_PASSWORD}@supabase-db:5432/postgres
+      - DB_SCHEMA=youtube_subtitles
+      - DB_POOL_SIZE=${DB_POOL_SIZE:-10}
+      - DB_AUTO_CREATE=${DB_AUTO_CREATE:-false}
+
+      # Redis (Job Queue & Caching)
+      - REDIS_URL=redis://redis:6379/2
+      - REDIS_QUEUE_NAME=youtube-extraction
+      - REDIS_RESULT_TTL=${REDIS_RESULT_TTL:-86400}
+
+      # YouTube Extraction
+      - YT_EXTRACTION_TIMEOUT=${YT_EXTRACTION_TIMEOUT:-30}
+      - YT_RETRY_MAX_ATTEMPTS=${YT_RETRY_MAX_ATTEMPTS:-3}
+      - YT_RETRY_BACKOFF_FACTOR=${YT_RETRY_BACKOFF_FACTOR:-2}
+      - YT_PROXY_URLS=${YT_PROXY_URLS:-}
+
+      # Rate Limiting
+      - RATE_LIMIT_REQUESTS_PER_MINUTE=${RATE_LIMIT_REQUESTS_PER_MINUTE:-30}
+      - RATE_LIMIT_BURST_SIZE=${RATE_LIMIT_BURST_SIZE:-5}
+      - CACHE_TTL_MINUTES=${CACHE_TTL_MINUTES:-1440}
+
+      # Monitoring
+      - PROMETHEUS_ENABLED=${PROMETHEUS_ENABLED:-true}
+      - SENTRY_DSN=${SENTRY_DSN:-}
+
+      # Security
+      - JWT_SECRET=${JWT_SECRET}
+      - API_KEY=${API_KEY:-}
+      - API_KEY_HEADER_NAME=X-API-Key
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-*}
+
+      # nginx-proxy (optional)
+      - VIRTUAL_HOST=${VIRTUAL_HOST:-}
+      - VIRTUAL_PORT=8010
+      - LETSENCRYPT_HOST=${LETSENCRYPT_HOST:-}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL:-}
+
+    volumes:
+      # Logs volume (bind mount for external rotation)
+      - ./logs:/app/logs
+      # Config (read-only)
+      - ./config:/app/config:ro
+
+    networks:
+      - supabase-tier
+      - redis-tier
+      - proxy-tier
+
+    # Nginx-proxy auto-discovery (if using proxy-tier)
+    labels:
+      - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy=true"
+
+    # Resource limits (critical for VPS)
+    deploy:
+      resources:
+        limits:
+          cpus: "1.5"
+          memory: 512M
+        reservations:
+          cpus: "0.5"
+          memory: 256M
+
+    # Healthcheck
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8010/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "3"
+        labels: "service=youtube-subtitles-api"
+
+  # Worker Pool (async subtitle extraction)
+  # Note: In production with heavy traffic, deploy multiple worker instances
+  # Scale via docker-compose: docker-compose up --scale worker=4
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    container_name: heavy-youtube-subtitles-worker
+    restart: unless-stopped
+    # Redis/PostgreSQL are external shared services attached via networks.
+
+    environment:
+      # Service Configuration
+      - SERVICE_NAME=youtube-subtitles-worker
+      - ENVIRONMENT=production
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+
+      # Database (Supabase PostgreSQL)
+      - DATABASE_URL=postgresql+asyncpg://postgres:${DB_PASSWORD}@supabase-db:5432/postgres
+      - DB_SCHEMA=youtube_subtitles
+      - WORKER_DB_POOL_SIZE=${WORKER_DB_POOL_SIZE:-5}
+      - DB_AUTO_CREATE=${DB_AUTO_CREATE:-false}
+
+      # Redis (Job Queue)
+      - REDIS_URL=redis://redis:6379/2
+      - REDIS_QUEUE_NAME=youtube-extraction
+      - REDIS_RESULT_TTL=${REDIS_RESULT_TTL:-86400}
+
+      # YouTube Extraction
+      - YT_EXTRACTION_TIMEOUT=${YT_EXTRACTION_TIMEOUT:-30}
+      - YT_RETRY_MAX_ATTEMPTS=${YT_RETRY_MAX_ATTEMPTS:-3}
+      - YT_RETRY_BACKOFF_FACTOR=${YT_RETRY_BACKOFF_FACTOR:-2}
+      - YT_PROXY_URLS=${YT_PROXY_URLS:-}
+      - WORKER_CONCURRENCY=${WORKER_CONCURRENCY:-2}
+      - WORKER_PREFETCH_MULTIPLIER=${WORKER_PREFETCH_MULTIPLIER:-1}
+
+      # Monitoring
+      - PROMETHEUS_ENABLED=${PROMETHEUS_ENABLED:-true}
+      - SENTRY_DSN=${SENTRY_DSN:-}
+
+    volumes:
+      # Logs volume
+      - ./logs:/app/logs
+      # Config (read-only)
+      - ./config:/app/config:ro
+
+    networks:
+      - supabase-tier
+      - redis-tier
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
+        reservations:
+          cpus: "0.5"
+          memory: 256M
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "3"
+        labels: "service=youtube-subtitles-worker"
+
+networks:
+  # Public access via nginx-proxy
+  proxy-tier:
+    external: true
+    name: nginx-proxy_default
+
+  # Database access (Supabase PostgreSQL)
+  supabase-tier:
+    external: true
+    name: supabase_default
+
+  # Cache access (Redis)
+  redis-tier:
+    external: true
+    name: redis_default

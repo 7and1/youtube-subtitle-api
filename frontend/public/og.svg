@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="YouTube Subtitle API">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#0b1220"/>
+      <stop offset="1" stop-color="#0b1220"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="0.2" cy="0.15" r="0.9">
+      <stop offset="0" stop-color="#7aa2ff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#7aa2ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="0.9" cy="0.2" r="0.9">
+      <stop offset="0" stop-color="#19c37d" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#19c37d" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="accent" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#7aa2ff"/>
+      <stop offset="1" stop-color="#19c37d"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow1)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+
+  <g transform="translate(90 120)">
+    <rect x="0" y="0" width="120" height="120" rx="28" fill="rgba(17,26,46,0.85)" stroke="rgba(231,238,252,0.2)"/>
+    <path d="M44 40h34a22 22 0 0 1 0 44H44z" fill="url(#accent)"/>
+    <path d="M54 50v40l34-20z" fill="rgba(11,18,32,0.75)"/>
+  </g>
+
+  <g font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial" fill="#e7eefc">
+    <text x="240" y="185" font-size="54" font-weight="800">YouTube Subtitle API</text>
+    <text x="240" y="245" font-size="26" fill="#a9b6d3">
+      Extract subtitles via API — async jobs, caching, rate limiting, metrics
+    </text>
+    <g transform="translate(240 300)">
+      <rect x="0" y="0" width="920" height="200" rx="24" fill="rgba(17,26,46,0.6)" stroke="rgba(231,238,252,0.14)"/>
+      <text x="28" y="58" font-family="ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace" font-size="22" fill="#a9b6d3">
+        POST /api/subtitles  →  200 (cache hit)  |  202 (job_id)
+      </text>
+      <text x="28" y="102" font-family="ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace" font-size="22" fill="#a9b6d3">
+        GET  /api/job/{job_id}  →  finished + result
+      </text>
+      <text x="28" y="146" font-family="ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace" font-size="22" fill="#a9b6d3">
+        Cache: memory → Redis → Postgres
+      </text>
+    </g>
+  </g>
+</svg>
+

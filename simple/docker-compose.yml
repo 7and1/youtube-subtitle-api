@@ -1,0 +1,62 @@
+services:
+  youtube-subtitle-api:
+    build: .
+    container_name: heavy-youtube-subtitle-api
+    restart: unless-stopped
+    environment:
+      # Service
+      - SERVICE_NAME=youtube-subtitle-api
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+
+      # API Security
+      - API_KEY=${API_KEY}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-*}
+
+      # Rate Limiting (in-memory)
+      - RATE_LIMIT_PER_MINUTE=${RATE_LIMIT_PER_MINUTE:-30}
+      - MAX_CONCURRENT=${MAX_CONCURRENT:-5}
+
+      # Cache (in-memory LRU)
+      - CACHE_TTL_SECONDS=${CACHE_TTL_SECONDS:-3600}
+      - CACHE_MAX_SIZE=${CACHE_MAX_SIZE:-500}
+
+      # Extraction
+      - EXTRACTION_TIMEOUT=${EXTRACTION_TIMEOUT:-30}
+      - FALLBACK_ENABLED=${FALLBACK_ENABLED:-true}
+
+      # Proxy Configuration
+      - USE_PROXY=${USE_PROXY:-true}
+      - PROXY_FILE_PATH=/app/config/proxies.txt
+      - PROXY_COOLDOWN_SECONDS=${PROXY_COOLDOWN_SECONDS:-60}
+      - PROXY_MAX_FAILURES=${PROXY_MAX_FAILURES:-3}
+
+    ports:
+      - "8020:8000"
+    volumes:
+      - ./logs:/app/logs
+      - ./config:/app/config:ro
+    networks:
+      - proxy-tier
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "1.0"
+        reservations:
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "3"
+
+networks:
+  proxy-tier:
+    external: true
+    name: nginx-proxy_default
